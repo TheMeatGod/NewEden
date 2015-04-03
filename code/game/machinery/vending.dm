@@ -903,3 +903,25 @@
 					/obj/item/weapon/screwdriver = 5,/obj/item/weapon/crowbar = 5)
 	//everything after the power cell had no amounts, I improvised.  -Sayu
 
+/obj/machinery/vending/munitions
+	name = "AmmoVend"
+	desc = "A vending machine for military munitions"
+	product_ads = "Shitcurity, GO GO GO!!!;Xeno infestation? - We can help!;Teach that Wizard to respect the fuzz!;For when harmbatoning just isn't good enough!;Warning! - This product line has been responsible for at least 2179 separate instances of war crimes!"
+	icon_state = "ammo"
+	icon_deny = "ammo-deny"
+	req_access_txt = "1"
+	products = list(/obj/item/ammo_casing/shotgun/stunshell = 32, /obj/item/ammo_casing/shotgun = 32, /obj/item/ammo_magazine/mc9mm = 8,
+					/obj/item/ammo_magazine/c45m = 4, /obj/item/ammo_magazine/a556 = 4)
+	contraband = list(/obj/item/weapon/grenade/flashbang/clusterbang = 2, /obj/item/weapon/grenade/spawnergrenade/corgi = 1)
+
+/obj/machinery/vending/shopping
+	name = "Fabi-Lust Dress Co."
+	desc = "Life in Spess can be hard, our products can keep you looking fabulous!"
+	product_ads = "Oh darling, that dress just must go!;I like it, I like it honey!;Absolutely FABulous!;Uh, you go girl!;Hey there hotstuff!;Well don't YOU just have a cute lil' ass?"
+	icon_state = "Theater"
+	products = list(/obj/item/clothing/under/dress/dress_green = 3, /obj/item/clothing/under/dress/dress_pink = 3, /obj/item/clothing/under/dress/dress_yellow = 3,
+					/obj/item/clothing/under/dress/dress_saloon = 3, /obj/item/clothing/under/sundress = 3,
+					/obj/item/clothing/under/wedding/bride_orange = 1, /obj/item/clothing/under/wedding/bride_red = 1, /obj/item/clothing/under/wedding/bride_blue = 1,
+					/obj/item/clothing/under/wedding/bride_purple = 1,
+					/obj/item/clothing/under/wedding/bride_white = 1)
+	contraband = list(/obj/item/clothing/under/dress/dress_fire = 1, /obj/item/clothing/under/dress/dress_orange = 1, /obj/item/clothing/under/fluff/tian_dress = 1)
