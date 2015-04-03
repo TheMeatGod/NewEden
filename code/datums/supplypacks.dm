@@ -5,7 +5,7 @@
 //BIG NOTE: Don't add living things to crates, that's bad, it will break the shuttle.
 //NEW NOTE: Do NOT set the price of any crates below 7 points. Doing so allows infinite points.
 
-var/list/all_supply_groups = list("Operations","Security","Hospitality","Engineering","Atmospherics","Medical","Science","Hydroponics", "Supply", "Miscellaneous")
+var/list/all_supply_groups = list("Operations","Security","Hospitality","Engineering","Atmospherics","Medical","Science","Hydroponics", "Supply", "Miscellaneous", "Resources")
 
 /datum/supply_packs
 	var/name = null
@@ -441,7 +441,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	cost = 10
 	containertype = /obj/structure/closet/crate
 	containername = "Metal sheets crate"
-	group = "Engineering"
+	group = "Resources"
 
 /datum/supply_packs/glass50
 	name = "50 glass sheets"
@@ -450,7 +450,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	cost = 10
 	containertype = /obj/structure/closet/crate
 	containername = "Glass sheets crate"
-	group = "Engineering"
+	group = "Resources"
 
 /datum/supply_packs/wood50
 	name = "50 wooden planks"
@@ -459,7 +459,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	cost = 10
 	containertype = /obj/structure/closet/crate
 	containername = "Wooden planks crate"
-	group = "Engineering"
+	group = "Resources"
 
 /datum/supply_packs/plastic50
 	name = "50 plastic sheets"
@@ -468,7 +468,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	cost = 10
 	containertype = /obj/structure/closet/crate
 	containername = "Plastic sheets crate"
-	group = "Engineering"
+	group = "Resources"
 
 /datum/supply_packs/smescoil
 	name = "Superconducting Magnetic Coil"
@@ -759,6 +759,21 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	cost = 50
 	containertype = /obj/structure/closet/crate/secure
 	containername = "Ballistic gear crate"
+	access = access_armory
+	group = "Security"
+
+// Need to add the bullpup into the item files.
+/datum/supply_packs/advballistic
+	name = "Advanced Ballistic crate"
+	contains = list(/obj/item/weapon/gun/projectile/automatic/bullpup,
+					/obj/item/weapon/gun/projectile/automatic/bullpup,
+					/obj/item/ammo_magazine/a556,
+					/obj/item/ammo_magazine/a556,
+					/obj/item/clothing/suit/armor/bulletproof,
+					/obj/item/clothing/suit/armor/bulletproof)
+	cost = 80
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Advanced Ballistic crate"
 	access = access_armory
 	group = "Security"
 

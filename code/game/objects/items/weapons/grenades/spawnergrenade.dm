@@ -42,3 +42,10 @@
 	spawner_type = /mob/living/simple_animal/hostile/carp
 	deliveryamt = 5
 	origin_tech = "materials=3;magnets=4;syndicate=4"
+
+/obj/item/weapon/grenade/spawnergrenade/corgi
+	desc = "It is set to detonate is 5 seconds.  It will unleash incalculable devestation on its victims.  The use of this item constitues a War Crime under article 362-A of Galactic Space Law."
+	name = "Experimental Doge Delivery System"
+	spawner_type = /mob/living/simple_animal/corgi
+	deliveryamt = 8
+	origin_tech = "materials=3;magnets=4"

@@ -152,3 +152,18 @@
 	max_ammo = 0
 	multiple_sprites = 1
 	matter = list()
+
+/obj/item/ammo_magazine/a556
+	name = "magazine (5.56)"
+	icon_state = "5.56"
+	origin_tech = "combat=2"
+	ammo_type = "/obj/item/ammo_casing/a556"
+	max_ammo = 30
+	multiple_sprites = 1
+
+
+/obj/item/ammo_magazine/a556/empty
+	name = "magazine (5.56)"
+	icon_state = "5.56"
+	ammo_type = "/obj/item/ammo_casing/556"
+	max_ammo = 0

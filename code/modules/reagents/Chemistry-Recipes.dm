@@ -16,6 +16,9 @@ datum
 		var/list/secondary_results = list()		//additional reagents produced by the reaction
 		var/requires_heating = 0
 
+		var/required_temp = 0
+		var/mix_message = "The solution begins to bubble."
+
 		proc
 			on_reaction(var/datum/reagents/holder, var/created_volume)
 				return
