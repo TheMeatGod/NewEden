@@ -122,8 +122,7 @@ datum
 					var/current_reagent_transfer = current_reagent.volume * part
 					if(preserve_data)
 						trans_data = copy_data(current_reagent)
-
-					R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), trans_data, safety = 1, src.chem_temp)	//safety checks on these so all chemicals are transferred
+					R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), trans_data, src.chem_temp)	//safety checks on these so all chemicals are transferred
 					src.remove_reagent(current_reagent.id, current_reagent_transfer, safety = 1)							// to the target container before handling reactions
 
 				src.update_total()
@@ -182,7 +181,7 @@ datum
 
 				return amount
 
-			copy_to(var/obj/target, var/amount=1, var/multiplier=1, var/preserve_data=1, var/safety = 0)
+			copy_to(var/obj/target, var/amount=1, var/multiplier=1, var/preserve_data=1)
 				if(!target)
 					return
 				if(!target.reagents || src.total_volume<=0)
@@ -195,13 +194,12 @@ datum
 					var/current_reagent_transfer = current_reagent.volume * part
 					if(preserve_data)
 						trans_data = copy_data(current_reagent)
-					R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), trans_data, safety = 1)	//safety check so all chemicals are transferred before reacting
+					R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), trans_data)	//safety check so all chemicals are transferred before reacting
 
 				src.update_total()
 				R.update_total()
-				if(!safety)
-					R.handle_reactions()
-					src.handle_reactions()
+				R.handle_reactions()
+				src.handle_reactions()
 				return amount
 
 			trans_id_to(var/obj/target, var/reagent, var/amount=1, var/preserve_data=1)//Not sure why this proc didn't exist before. It does now! /N
@@ -261,12 +259,12 @@ datum
 				return total_transfered
 */
 
-			metabolize(var/mob/M,var/alien)
-
+			metabolize(var/mob/M, var/alien)
+				if(M)
+					chem_temp = M.bodytemperature
+					handle_reactions()
 				for(var/A in reagent_list)
 					var/datum/reagent/R = A
-					if(M)
-						chem_temp = M.bodytemperature
 					if(M && R)
 						R.on_mob_life(M,alien)
 				update_total()
@@ -295,14 +293,14 @@ datum
 
 							var/datum/chemical_reaction/C = reaction
 
-							//check if this recipe needs to be heated to mix
+							/* check if this recipe needs to be heated to mix
 							if(C.requires_heating)
 								if(istype(my_atom.loc, /obj/machinery/bunsen_burner))
 									if(!my_atom.loc:heated)
 										continue
 								else
 									continue
-
+							*/
 
 							var/total_required_reagents = C.required_reagents.len
 							var/total_matching_reagents = 0
@@ -343,9 +341,6 @@ datum
 									if(M.Uses > 0) // added a limit to slime cores -- Muskets requested this
 										matching_other = 1
 
-							if(required_temp == 0)
-								required_temp = chem_temp
-
 
 
 
@@ -361,16 +356,16 @@ datum
 								if(C.result)
 									feedback_add_details("chemical_reaction","[C.result]|[C.result_amount*multiplier]")
 									multiplier = max(multiplier, 1) //this shouldnt happen ...
-									add_reagent(C.result, C.result_amount*multiplier, chem_temp)
+									add_reagent(C.result, C.result_amount*multiplier, null, chem_temp)
 									set_data(C.result, preserved_data)
 
 									//add secondary products
 									for(var/S in C.secondary_results)
-										add_reagent(S, C.result_amount * C.secondary_results[S] * multiplier)
+										add_reagent(S, C.result_amount * C.secondary_results[S] * multiplier, null, chem_temp)
 
 								var/list/seen = viewers(4, get_turf(my_atom))
 								for(var/mob/M in seen)
-									M << "\blue \icon[my_atom][C.mix_message]"
+									M << "\blue \icon[my_atom] [C.mix_message]."
 
 							/*	if(istype(my_atom, /obj/item/slime_core))
 									var/obj/item/slime_core/ME = my_atom
@@ -466,10 +461,12 @@ datum
 									else R.reaction_obj(A, R.volume+volume_modifier)
 				return
 
-			add_reagent(var/reagent, var/amount, var/list/data=null, var/safety = 0, var/reagtemp = 300)
-				if(!isnum(amount)) return 1
+			add_reagent(var/reagent, var/amount, var/list/data=null, var/reagtemp = 300)
+				if(!isnum(amount))
+					return 1
 				update_total()
-				if(total_volume + amount > maximum_volume) amount = (maximum_volume - total_volume) //Doesnt fit in. Make it disappear. Shouldnt happen. Will happen.
+				if(total_volume + amount > maximum_volume)
+					amount = (maximum_volume - total_volume) //Doesnt fit in. Make it disappear. Shouldnt happen. Will happen.
 				chem_temp = round(((amount * reagtemp) + (total_volume * chem_temp)) / (total_volume + amount)) //equalize with new chems
 
 				for(var/A in reagent_list)
@@ -505,8 +502,7 @@ datum
 												preserve += D
 										R.data["viruses"] = preserve
 
-						if(!safety)
-							handle_reactions()
+						handle_reactions()
 						return 0
 
 				var/datum/reagent/D = chemical_reagents_list[reagent]
@@ -525,19 +521,18 @@ datum
 					//debug
 					update_total()
 					my_atom.on_reagent_change()
-					if(!safety)
-						handle_reactions()
+					handle_reactions()
 					return 0
 				else
 					warning("[my_atom] attempted to add a reagent called '[reagent]' which doesn't exist. ([usr])")
 
-				if(!safety)
-					handle_reactions()
+				handle_reactions()
 
 				return 1
 
 			remove_reagent(var/reagent, var/amount, var/safety = 0)//Added a safety check for the trans_id_to
-				if(!isnum(amount)) return 1
+				if(!isnum(amount))
+					return 1
 
 				for(var/A in reagent_list)
 					var/datum/reagent/R = A
